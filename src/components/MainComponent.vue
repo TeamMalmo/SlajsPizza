@@ -1,6 +1,7 @@
 <!-- SCRIPTS -->
 <script setup>
 import { useMenu } from '../composables/useMenu.js';
+import PizzaComponent from './PizzaComponent.vue';
 
 const { menu, isLoading, error, fetchMenu } = useMenu();
 
@@ -16,6 +17,7 @@ console.log(menu.value);
 
 <main>
   <p>Welcome to Pizza Slajs</p>
+  <PizzaComponent />
 
 </main>
 
