@@ -1,0 +1,10 @@
+<!-- SCRIPTS -->
+<script setup>
+
+</script>
+
+<!-- TEMPLATE -->
+<template></template>
+
+<!-- STYLE -->
+<style scoped></style>
