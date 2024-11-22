@@ -13,3 +13,28 @@
 <style scoped>
 
 </style>
+
+
+Exempel hämtning av menu i main
+
+  <div>
+      <h1>Menu</h1>
+      <button @click="fetchMenu" :disabled="isLoading">Fetch Menu</button>
+  
+      <div v-if="isLoading">Loading...</div>
+      <div v-if="error" class="error">{{ error }}</div>
+  
+      <div v-if="menu.length">
+        <div v-for="item in menu" :key="item.id" class="menu-item">
+          <h2>{{ item.name }}</h2>
+          <!-- <img :src="item.imgUrl" :alt="item.name" /> -->
+          <p>{{ item.description }}</p>
+          <p>Price: {{ item.price }}</p>
+          <ul v-if="item.toppings || item.ingredients">
+            <li v-for="topping in item.toppings || item.ingredients" :key="topping">
+              {{ topping }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
