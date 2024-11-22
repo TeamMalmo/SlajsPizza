@@ -1,6 +1,11 @@
 <!-- SCRIPTS -->
 <script setup>
+import { useMenu } from '../composables/useMenu.js';
 
+const { menu, isLoading, error, fetchMenu } = useMenu();
+
+
+console.log(menu.value);
 </script>
 
 <!-- TEMPLATE -->
@@ -11,6 +16,7 @@
 
 <main>
   <p>Welcome to Pizza Slajs</p>
+
 </main>
 
 <footer>
