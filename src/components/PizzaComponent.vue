@@ -39,20 +39,24 @@ onMounted(async () => {
       <div class="rendered-menu" v-show="isMenuShowing">
         <!-- loopar över alla pizzorna i menyn -->
         <div v-for="item in pizzas" :key="item.id" class="pizza-item">
-          <div class="left">
+            <div class="card-header">
                 <h2>{{ item.name }}</h2>
-                <img :src="item.imgUrl" :alt="item.name" />
-            </div>
-            <div class="right">
                 <h3>Price: {{ item.price }}:-</h3>
-                <p>{{ item.description }}</p>
-           <!-- inre loop över toppings eller ingredienser -->
-            <ul v-if="item.toppings || item.ingredients">
-              <li v-for="topping in item.toppings || item.ingredients" :key="topping">
-                {{ topping }}
-              </li>
-            </ul>
-          </div>
+            </div>
+            <div class="card-body">
+                <div class="left">
+                      <img :src="item.imgUrl" :alt="item.name" />
+                  </div>
+                  <div class="right">
+                      <p>{{ item.description }}</p>
+                 <!-- inre loop över toppings eller ingredienser -->
+                  <ul v-if="item.toppings || item.ingredients">
+                    <li v-for="topping in item.toppings || item.ingredients" :key="topping">
+                      {{ topping }}
+                    </li>
+                  </ul>
+                </div>
+            </div>
         </div>
       </div>
     </div>
@@ -93,10 +97,15 @@ onMounted(async () => {
       text-align: center;
       margin: 0;
       color: white;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1rem;
     }
     .pizza-item {
       display: flex;
-      /* flex-direction: column; */
+      flex-direction: column;
       justify-content: space-between;
       align-items: center;
       max-width: 500px;
@@ -110,6 +119,24 @@ onMounted(async () => {
     .pizza-item img {
       width: 200px;
       height: 200px;
+    }
+
+    .card-header {
+        width: 100%;
+      display: flex;
+      /* flex-direction: column; */
+      justify-content: space-between;
+      align-items: center;
+      gap : 1rem;
+      text-align: left;
+      height: 100%;
+    }
+
+    .card-body{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
     }
 
     .right, .left {
