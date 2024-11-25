@@ -3,6 +3,7 @@
 
 <script setup>
 import { useMenu } from '../composables/useMenu.js';
+import DrinkComponent from './DrinkComponent.vue';
 
 const { menu, isLoading, error, fetchMenu } = useMenu();
 
@@ -40,6 +41,7 @@ const dummyData = { // Changed from "dummmyData" to "dummyData"
       <p class="card-price">{{ dummyData.price }} SEK</p>
     </div>
   </div>
+  <DrinkComponent/>
 </main>
 
 <footer>
