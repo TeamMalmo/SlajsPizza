@@ -1,9 +1,14 @@
 <!-- SCRIPTS -->
 <script setup>
 import { useMenu } from '../composables/useMenu.js';
+import { computed } from 'vue';
 
 const { menu, isLoading, error, fetchMenu } = useMenu();
 
+
+const pizzas = computed(() => menu.value.filter(item => item.type === 'pizza'));
+const salads = computed(() => menu.value.filter(item => item.type === 'salad'));
+const drinks = computed(() => menu.value.filter(item => item.type === 'drinks'));
 
 console.log(menu.value);
 </script>
@@ -16,6 +21,8 @@ console.log(menu.value);
 
 <main>
   <p>Welcome to Pizza Slajs</p>
+  <!-- <CardComponent?/> -->
+  
 
 </main>
 

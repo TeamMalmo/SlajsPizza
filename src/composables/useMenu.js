@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import axios from 'axios';
+import { useImageFix } from './useImageFix';
 
 export function useMenu() {
   // Reactive states
@@ -22,6 +23,7 @@ export function useMenu() {
       });
       // Set menu data, extracting 'items' array
       menu.value = response.data.items;
+      menu.value = useImageFix(menu.value);
       // Optionally log the fetched menu
       console.log("Fetched Menu:", menu.value);
     } catch (err) {
@@ -48,3 +50,4 @@ export function useMenu() {
     fetchMenu,
   };
 }
+
