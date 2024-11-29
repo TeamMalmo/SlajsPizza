@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useMenu } from '../composables/useMenu.js';
@@ -85,6 +86,7 @@ const toggleSection = (section) => {
   </ModalComponent>
 </template>
 
+
 <style scoped>
 h2{
   text-align: center;
@@ -117,4 +119,6 @@ footer {
   color: black;
   text-align: center;
 }
+
 </style>
+
