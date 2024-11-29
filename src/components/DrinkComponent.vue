@@ -13,7 +13,7 @@ const emit = defineEmits(['show-details']);
 
 <template>
   <div class="menu-section">
-    <h2>Pizzas</h2>
+    <h2>Drinks</h2>
     <div v-for="item in menuItems" :key="item.id" class="menu-item">
       <h3>{{ item.name }}</h3>
       <p>Price: {{ item.price }}:-</p>

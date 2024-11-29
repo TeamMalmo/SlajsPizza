@@ -6,14 +6,22 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sectionTitle: {
+    type: String,
+    required: true,
+  },
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['show-details']);
 </script>
 
 <template>
-  <div class="menu-section">
-    <h2>Pizzas</h2>
+  <!-- <h2 @click="$emit('toggle-section')"> {{ sectionTitle.toUpperCase() }}</h2> -->
+  <div v-show="isOpen" class="menu-section">
     <div v-for="item in menuItems" :key="item.id" class="menu-item">
       <h3>{{ item.name }}</h3>
       <p>Price: {{ item.price }}:-</p>
@@ -23,14 +31,29 @@ const emit = defineEmits(['show-details']);
 </template>
 
 <style scoped>
+h2{
+  text-align: center;
+}
+
 .menu-section {
-  margin: 2rem 0;
+  gap: 1rem;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-item {
+  width: 40%;
   border: 1px solid #ddd;
   padding: 1rem;
-  margin: 1rem 0;
   text-align: left;
+  border-radius: 0.5rem;
+  background-color: rgba(135, 207, 235, 0.224);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
