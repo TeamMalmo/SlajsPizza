@@ -1,55 +1,107 @@
-<!-- SCRIPTS -->
-
 
 <script setup>
+import { ref, onMounted, computed } from 'vue';
 import { useMenu } from '../composables/useMenu.js';
+import ModalComponent from './ModalComponent.vue';
+import MenuSectionComponent from './MenuSectionComponent.vue';
 
 const { menu, isLoading, error, fetchMenu } = useMenu();
 
-console.log(menu.value);
+const selectedItem = ref(null);
+const isModalOpen = ref(false);
+const isSectionOpen = ref({});
 
-const dummyData = { // Changed from "dummmyData" to "dummyData"
-  id: 1,
-  type: "pizza",
-  name: "Romana",
-  imgUrl: "https://pizzerialunden.com/wp-content/themes/pizzerialunden/images/default-landingpage-1.jpg",
-  description: "Pizza ipsum dolor amet platter mayo pesto, thin crust bianca bacon & tomato...",
-  price: 129,
-  toppings: ["mozarella", "parmaskinka", "oliver"],
+onMounted(async () => {
+  await fetchMenu();
+});
+
+// Ensure defensive coding in menuTypes
+const menuTypes = computed(() => {
+  return Array.isArray(menu.value) ? [...new Set(menu.value.map(item => item.type))] : [];
+});
+
+const openModal = (item) => {
+  selectedItem.value = item;
+  isModalOpen.value = true;
 };
+
+const closeModal = () => {
+  isModalOpen.value = false;
+  selectedItem.value = null;
+};
+
+const toggleSection = (section) => {
+  isSectionOpen.value = {
+    ...isSectionOpen.value,
+    [section]: !isSectionOpen.value[section], // toggle the specific section
+  };
+};
+
 </script>
 
 
-<!-- TEMPLATE -->
+<template>
+  <header>
+    <h1>Pizza Slajs</h1>
+  </header>
 
-    <template>
-<header>
-  <h1>Pizza Slajs</h1>
-</header>
+  <main>
+    <p>Welcome to Pizza Slajs</p>
 
-<main>
-  <p>Welcome to Pizza Slajs</p>
-  <div class="card">
-    <img :src="dummyData.imgUrl" alt="Pizza Image" class="card-image" />
-    <div class="card-content">
-      <h2 class="card-title">{{ dummyData.name }}</h2>
-      <p class="card-description">{{ dummyData.description }}</p>
-      <ul class="card-toppings">
-        <li v-for="topping in dummyData.toppings" :key="topping">{{ topping }}</li>
-      </ul>
-      <p class="card-price">{{ dummyData.price }} SEK</p>
+    <div v-if="isLoading">Loading...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+
+    <div v-if="!isLoading && !error" class="menu">
+      <div v-for="type in menuTypes" :key="type">
+        <h2 @click="toggleSection(type)">
+          {{ isSectionOpen[type] ? 'Hide' : 'Show' }} {{ type }}
+        </h2>
+
+        <MenuSectionComponent
+          :menuItems="menu.filter(item => item.type === type)"
+          :sectionTitle="type"
+          @show-details="openModal"
+          :isOpen="isSectionOpen[type]"
+        />
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<footer>
-  <p>Made with 💩 by Malmö</p>
-</footer>
+  <footer>
+    <p>Made with 💩 by Malmö</p>
+  </footer>
+
+  <ModalComponent :isOpen="isModalOpen" @close="closeModal">
+    <template v-if="selectedItem">
+      <h2>{{ selectedItem.name }}</h2>
+      <img :src="selectedItem.imgUrl" alt="Pizza image">
+      <p>{{ selectedItem.description }}</p>
+      <h3>Ingredients:</h3>
+      <ul>
+        <li v-for="ingredient in selectedItem.toppings || []" :key="ingredient">
+          {{ ingredient }}
+        </li>
+      </ul>
+    </template>
+  </ModalComponent>
 </template>
 
 
-<!-- STYLE -->
 <style scoped>
+h2{
+  text-align: center;
+}
+
+h2:hover{
+  cursor: pointer;  
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out; 
+}
+
+img {
+  max-width: 150px;
+}
+
 header {
   background-color: skyblue;
   color: black;
@@ -68,9 +120,5 @@ footer {
   text-align: center;
 }
 
-img
-{
-  width: 300px;
-  height: auto;
-}
 </style>
+
