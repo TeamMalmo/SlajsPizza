@@ -2,13 +2,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useMenu } from '../composables/useMenu.js';
-import ModalComponent from './ModalComponent.vue';
+// import ModalComponent from './ModalComponent.vue';
 import MenuSectionComponent from './MenuSectionComponent.vue';
 
 const { menu, isLoading, error, fetchMenu } = useMenu();
 
 const selectedItem = ref(null);
-const isModalOpen = ref(false);
 const isSectionOpen = ref({});
 
 onMounted(async () => {
@@ -20,15 +19,6 @@ const menuTypes = computed(() => {
   return Array.isArray(menu.value) ? [...new Set(menu.value.map(item => item.type))] : [];
 });
 
-const openModal = (item) => {
-  selectedItem.value = item;
-  isModalOpen.value = true;
-};
-
-const closeModal = () => {
-  isModalOpen.value = false;
-  selectedItem.value = null;
-};
 
 const toggleSection = (section) => {
   isSectionOpen.value = {
@@ -53,7 +43,9 @@ const toggleSection = (section) => {
 
     <div v-if="!isLoading && !error" class="menu">
       <div v-for="type in menuTypes" :key="type">
-        <h2 @click="toggleSection(type)">
+        <h2 
+        class="banner"
+        @click="toggleSection(type)">
           {{ isSectionOpen[type] ? 'Hide' : 'Show' }} {{ type }}
         </h2>
 
@@ -71,37 +63,10 @@ const toggleSection = (section) => {
     <p>Made with 💩 by Malmö</p>
   </footer>
 
-  <ModalComponent :isOpen="isModalOpen" @close="closeModal">
-    <template v-if="selectedItem">
-      <h2>{{ selectedItem.name }}</h2>
-      <img :src="selectedItem.imgUrl" alt="Pizza image">
-      <p>{{ selectedItem.description }}</p>
-      <h3>Ingredients:</h3>
-      <ul>
-        <li v-for="ingredient in selectedItem.toppings || []" :key="ingredient">
-          {{ ingredient }}
-        </li>
-      </ul>
-    </template>
-  </ModalComponent>
+
 </template>
 
-
 <style scoped>
-h2{
-  text-align: center;
-}
-
-h2:hover{
-  cursor: pointer;  
-  transform: scale(1.1);
-  transition: transform 0.2s ease-in-out; 
-}
-
-img {
-  max-width: 150px;
-}
-
 header {
   background-color: skyblue;
   color: black;
@@ -120,5 +85,21 @@ footer {
   text-align: center;
 }
 
-</style>
+.banner {
+  background-color: skyblue;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: fantasy;
+  letter-spacing: 2px;
+  font-weight: 100;
+}
 
+.banner:hover {
+transform: scale(1.1);
+transition: ease.3s;
+cursor: pointer;
+}
+</style>
